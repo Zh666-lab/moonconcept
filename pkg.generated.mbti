@@ -65,6 +65,7 @@ pub fn Context::attribute_count(Self) -> Int
 pub fn Context::attribute_index(Self, String) -> Int?
 pub fn Context::attribute_labels(Self, Array[Int]) -> Array[String] raise FcaError
 pub fn Context::attributes(Self) -> Array[String]
+pub fn Context::canonical_basis(Self, candidate_limit? : Int, work_limit? : Int) -> RuleSystem raise FcaError
 pub fn Context::closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::concept_for(Self, Array[Int]) -> Concept raise FcaError
 pub fn Context::concepts(Self, limit? : Int) -> Array[Concept] raise FcaError
