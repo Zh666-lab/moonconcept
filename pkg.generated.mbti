@@ -20,9 +20,13 @@ pub fn index_set(Array[Int]) -> Array[Int]
 
 pub fn model_respects(Array[Int], Implication, Int) -> Bool raise FcaError
 
+pub fn parse_context_json(String) -> Context raise FcaError
+
 pub fn parse_csv(String) -> Context raise FcaError
 
 pub fn parse_cxt(String) -> Context raise FcaError
+
+pub fn parse_rules_json(String) -> RuleSystem raise FcaError
 
 pub fn rule_system(Int, Array[Implication]) -> RuleSystem raise FcaError
 
@@ -116,6 +120,8 @@ pub fn Context::subposition(Self, Self) -> Self raise FcaError
 pub fn Context::support(Self, Array[Int]) -> Double raise FcaError
 pub fn Context::to_csv(Self) -> String
 pub fn Context::to_cxt(Self) -> String raise FcaError
+pub fn Context::to_json(Self) -> Json
+pub fn Context::to_json_string(Self) -> String
 pub fn Context::to_repr(Self) -> @debug.Repr
 pub fn Context::valid_concept(Self, Concept) -> Bool raise FcaError
 pub fn Context::valid_implication(Self, Implication) -> Bool raise FcaError
@@ -203,6 +209,8 @@ pub fn RuleSystem::irredundant(Self) -> Self raise FcaError
 pub fn RuleSystem::is_model(Self, Array[Int]) -> Bool raise FcaError
 pub fn RuleSystem::reduce_premises(Self) -> Self raise FcaError
 pub fn RuleSystem::split_conclusions(Self) -> Self raise FcaError
+pub fn RuleSystem::to_json(Self) -> Json
+pub fn RuleSystem::to_json_string(Self) -> String
 pub fn RuleSystem::to_repr(Self) -> @debug.Repr
 pub fn RuleSystem::trace(Self, Array[Int]) -> ClosureTrace raise FcaError
 pub fn RuleSystem::with_rule(Self, Implication) -> Self raise FcaError
