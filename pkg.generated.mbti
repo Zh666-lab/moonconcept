@@ -12,6 +12,8 @@ pub fn context(Array[String], Array[String], Array[Array[Bool]]) -> Context rais
 
 pub fn context_from_sets(Array[String], Array[String], Array[Array[Int]]) -> Context raise FcaError
 
+pub fn exploration(Context, RuleSystem) -> Exploration raise FcaError
+
 pub fn implication(Array[Int], Array[Int], Int) -> Implication raise FcaError
 
 pub fn index_set(Array[Int]) -> Array[Int]
@@ -121,6 +123,16 @@ pub struct Cover {
 pub fn Cover::equal(Self, Self) -> Bool
 pub fn Cover::not_equal(Self, Self) -> Bool
 pub fn Cover::to_repr(Self) -> @debug.Repr
+
+pub struct Exploration {
+  // private fields
+} derive(@debug.Debug)
+pub fn Exploration::accept(Self, Implication) -> Self raise FcaError
+pub fn Exploration::context(Self) -> Context
+pub fn Exploration::next_question(Self, candidate_limit? : Int) -> Implication? raise FcaError
+pub fn Exploration::reject(Self, Implication, String, Array[Int]) -> Self raise FcaError
+pub fn Exploration::theory(Self) -> RuleSystem
+pub fn Exploration::to_repr(Self) -> @debug.Repr
 
 pub struct Implication {
   premise : Array[Int]
