@@ -1,0 +1,5 @@
+import {
+  "Zh666-lab/moonconcept" @fca,
+}
+
+pkgtype(kind: "executable")
