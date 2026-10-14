@@ -42,6 +42,16 @@ pub fn FcaError::not_equal(Self, Self) -> Bool
 pub fn FcaError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
+pub struct Clarification {
+  context : Context
+  // private fields
+} derive(@debug.Debug)
+pub fn Clarification::attribute_classes(Self) -> Array[Array[Int]]
+pub fn Clarification::expand_extent(Self, Array[Int]) -> Array[Int] raise FcaError
+pub fn Clarification::expand_intent(Self, Array[Int]) -> Array[Int] raise FcaError
+pub fn Clarification::object_classes(Self) -> Array[Array[Int]]
+pub fn Clarification::to_repr(Self) -> @debug.Repr
+
 pub struct ClosureTrace {
   result : Array[Int]
   steps : Array[InferenceStep]
@@ -66,6 +76,7 @@ pub fn Context::attribute_index(Self, String) -> Int?
 pub fn Context::attribute_labels(Self, Array[Int]) -> Array[String] raise FcaError
 pub fn Context::attributes(Self) -> Array[String]
 pub fn Context::canonical_basis(Self, candidate_limit? : Int, work_limit? : Int) -> RuleSystem raise FcaError
+pub fn Context::clarify(Self) -> Clarification raise FcaError
 pub fn Context::closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::concept_for(Self, Array[Int]) -> Concept raise FcaError
 pub fn Context::concepts(Self, limit? : Int) -> Array[Concept] raise FcaError
