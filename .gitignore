@@ -1,3 +1,6 @@
 /_build/
 /.mooncakes/
 /target/
+/features.json
+/roles.txt
+/catalog.json
