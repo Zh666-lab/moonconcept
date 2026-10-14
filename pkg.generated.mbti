@@ -90,6 +90,7 @@ pub fn Context::canonical_basis(Self, candidate_limit? : Int, work_limit? : Int)
 pub fn Context::clarify(Self) -> Clarification raise FcaError
 pub fn Context::closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::concept_for(Self, Array[Int]) -> Concept raise FcaError
+pub fn Context::concept_report(Self, limit? : Int) -> Json raise FcaError
 pub fn Context::concepts(Self, limit? : Int) -> Array[Concept] raise FcaError
 pub fn Context::counterexample_labels(Self, Implication) -> Array[String] raise FcaError
 pub fn Context::counterexamples(Self, Implication) -> Array[Int] raise FcaError
@@ -105,6 +106,7 @@ pub fn Context::implication_for(Self, Array[Int]) -> Implication raise FcaError
 pub fn Context::intent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::is_closed(Self, Array[Int]) -> Bool raise FcaError
 pub fn Context::lattice(Self, limit? : Int) -> Lattice raise FcaError
+pub fn Context::lattice_report(Self, limit? : Int) -> Json raise FcaError
 pub fn Context::minimal_generators(Self, Array[Int], candidate_limit? : Int, result_limit? : Int) -> Array[Array[Int]] raise FcaError
 pub fn Context::next_intent(Self, Array[Int]) -> Array[Int]? raise FcaError
 pub fn Context::not_equal(Self, Self) -> Bool
@@ -178,6 +180,7 @@ pub fn Lattice::lower_covers(Self, Int) -> Array[Int] raise FcaError
 pub fn Lattice::meet(Self, Int, Int) -> Int raise FcaError
 pub fn Lattice::meet_all(Self, Array[Int]) -> Int raise FcaError
 pub fn Lattice::size(Self) -> Int
+pub fn Lattice::to_dot(Self) -> String
 pub fn Lattice::to_repr(Self) -> @debug.Repr
 pub fn Lattice::top(Self) -> Int
 pub fn Lattice::upper_covers(Self, Int) -> Array[Int] raise FcaError
@@ -201,10 +204,12 @@ pub struct RuleSystem {
   // private fields
 } derive(@debug.Debug)
 pub fn RuleSystem::attribute_count(Self) -> Int
+pub fn RuleSystem::audit(Self, Context) -> Json raise FcaError
 pub fn RuleSystem::closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn RuleSystem::entails(Self, Implication) -> Bool raise FcaError
 pub fn RuleSystem::equivalent(Self, Self) -> Bool raise FcaError
 pub fn RuleSystem::implications(Self) -> Array[Implication]
+pub fn RuleSystem::inference_report(Self, Array[Int]) -> Json raise FcaError
 pub fn RuleSystem::irredundant(Self) -> Self raise FcaError
 pub fn RuleSystem::is_model(Self, Array[Int]) -> Bool raise FcaError
 pub fn RuleSystem::reduce_premises(Self) -> Self raise FcaError
