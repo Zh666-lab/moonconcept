@@ -18,6 +18,8 @@ pub fn index_set(Array[Int]) -> Array[Int]
 
 pub fn model_respects(Array[Int], Implication, Int) -> Bool raise FcaError
 
+pub fn rule_system(Int, Array[Implication]) -> RuleSystem raise FcaError
+
 pub fn set_difference(Array[Int], Array[Int]) -> Array[Int]
 
 pub fn set_equal(Array[Int], Array[Int]) -> Bool
@@ -40,6 +42,14 @@ pub fn FcaError::not_equal(Self, Self) -> Bool
 pub fn FcaError::to_repr(Self) -> @debug.Repr
 
 // Types and methods
+pub struct ClosureTrace {
+  result : Array[Int]
+  steps : Array[InferenceStep]
+} derive(Eq, @debug.Debug)
+pub fn ClosureTrace::equal(Self, Self) -> Bool
+pub fn ClosureTrace::not_equal(Self, Self) -> Bool
+pub fn ClosureTrace::to_repr(Self) -> @debug.Repr
+
 pub struct Concept {
   extent : Array[Int]
   intent : Array[Int]
@@ -101,6 +111,14 @@ pub fn Implication::equal(Self, Self) -> Bool
 pub fn Implication::not_equal(Self, Self) -> Bool
 pub fn Implication::to_repr(Self) -> @debug.Repr
 
+pub struct InferenceStep {
+  rule_index : Int
+  added : Array[Int]
+} derive(Eq, @debug.Debug)
+pub fn InferenceStep::equal(Self, Self) -> Bool
+pub fn InferenceStep::not_equal(Self, Self) -> Bool
+pub fn InferenceStep::to_repr(Self) -> @debug.Repr
+
 pub struct Lattice {
   // private fields
 } derive(@debug.Debug)
@@ -120,6 +138,18 @@ pub fn Lattice::size(Self) -> Int
 pub fn Lattice::to_repr(Self) -> @debug.Repr
 pub fn Lattice::top(Self) -> Int
 pub fn Lattice::upper_covers(Self, Int) -> Array[Int] raise FcaError
+
+pub struct RuleSystem {
+  // private fields
+} derive(@debug.Debug)
+pub fn RuleSystem::attribute_count(Self) -> Int
+pub fn RuleSystem::closure(Self, Array[Int]) -> Array[Int] raise FcaError
+pub fn RuleSystem::entails(Self, Implication) -> Bool raise FcaError
+pub fn RuleSystem::equivalent(Self, Self) -> Bool raise FcaError
+pub fn RuleSystem::implications(Self) -> Array[Implication]
+pub fn RuleSystem::is_model(Self, Array[Int]) -> Bool raise FcaError
+pub fn RuleSystem::to_repr(Self) -> @debug.Repr
+pub fn RuleSystem::trace(Self, Array[Int]) -> ClosureTrace raise FcaError
 
 // Type aliases
 
