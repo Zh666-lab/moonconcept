@@ -39,15 +39,23 @@ pub struct Context {
 } derive(Eq, @debug.Debug)
 pub fn Context::attribute_count(Self) -> Int
 pub fn Context::attribute_index(Self, String) -> Int?
+pub fn Context::attribute_labels(Self, Array[Int]) -> Array[String] raise FcaError
 pub fn Context::attributes(Self) -> Array[String]
+pub fn Context::closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::density(Self) -> Double
 pub fn Context::equal(Self, Self) -> Bool
+pub fn Context::extent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::has(Self, Int, Int) -> Bool raise FcaError
+pub fn Context::intent(Self, Array[Int]) -> Array[Int] raise FcaError
+pub fn Context::is_closed(Self, Array[Int]) -> Bool raise FcaError
 pub fn Context::not_equal(Self, Self) -> Bool
+pub fn Context::object_closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::object_count(Self) -> Int
 pub fn Context::object_index(Self, String) -> Int?
+pub fn Context::object_labels(Self, Array[Int]) -> Array[String] raise FcaError
 pub fn Context::objects(Self) -> Array[String]
 pub fn Context::rows(Self) -> Array[Array[Bool]]
+pub fn Context::support(Self, Array[Int]) -> Double raise FcaError
 pub fn Context::to_repr(Self) -> @debug.Repr
 
 // Type aliases
