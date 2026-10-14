@@ -148,9 +148,13 @@ pub fn RuleSystem::closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn RuleSystem::entails(Self, Implication) -> Bool raise FcaError
 pub fn RuleSystem::equivalent(Self, Self) -> Bool raise FcaError
 pub fn RuleSystem::implications(Self) -> Array[Implication]
+pub fn RuleSystem::irredundant(Self) -> Self raise FcaError
 pub fn RuleSystem::is_model(Self, Array[Int]) -> Bool raise FcaError
+pub fn RuleSystem::reduce_premises(Self) -> Self raise FcaError
+pub fn RuleSystem::split_conclusions(Self) -> Self raise FcaError
 pub fn RuleSystem::to_repr(Self) -> @debug.Repr
 pub fn RuleSystem::trace(Self, Array[Int]) -> ClosureTrace raise FcaError
+pub fn RuleSystem::with_rule(Self, Implication) -> Self raise FcaError
 
 // Type aliases
 
