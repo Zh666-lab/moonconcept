@@ -75,6 +75,7 @@ pub fn Context::density(Self) -> Double
 pub fn Context::dual(Self) -> Self raise FcaError
 pub fn Context::equal(Self, Self) -> Bool
 pub fn Context::extent(Self, Array[Int]) -> Array[Int] raise FcaError
+pub fn Context::filter_rules(Self, Array[Implication], min_support? : Double, min_confidence? : Double) -> Array[ScoredRule] raise FcaError
 pub fn Context::has(Self, Int, Int) -> Bool raise FcaError
 pub fn Context::implication_for(Self, Array[Int]) -> Implication raise FcaError
 pub fn Context::intent(Self, Array[Int]) -> Array[Int] raise FcaError
@@ -89,6 +90,7 @@ pub fn Context::object_labels(Self, Array[Int]) -> Array[String] raise FcaError
 pub fn Context::objects(Self) -> Array[String]
 pub fn Context::project(Self, Array[Int], Array[Int]) -> Self raise FcaError
 pub fn Context::rows(Self) -> Array[Array[Bool]]
+pub fn Context::rule_metrics(Self, Implication) -> RuleMetrics raise FcaError
 pub fn Context::support(Self, Array[Int]) -> Double raise FcaError
 pub fn Context::to_repr(Self) -> @debug.Repr
 pub fn Context::valid_concept(Self, Concept) -> Bool raise FcaError
@@ -140,6 +142,21 @@ pub fn Lattice::to_repr(Self) -> @debug.Repr
 pub fn Lattice::top(Self) -> Int
 pub fn Lattice::upper_covers(Self, Int) -> Array[Int] raise FcaError
 
+pub struct RuleMetrics {
+  object_count : Int
+  premise_count : Int
+  conclusion_count : Int
+  joint_count : Int
+  counterexample_count : Int
+  support : Double
+  confidence : Double?
+  lift : Double?
+  leverage : Double
+} derive(Eq, @debug.Debug)
+pub fn RuleMetrics::equal(Self, Self) -> Bool
+pub fn RuleMetrics::not_equal(Self, Self) -> Bool
+pub fn RuleMetrics::to_repr(Self) -> @debug.Repr
+
 pub struct RuleSystem {
   // private fields
 } derive(@debug.Debug)
@@ -155,6 +172,14 @@ pub fn RuleSystem::split_conclusions(Self) -> Self raise FcaError
 pub fn RuleSystem::to_repr(Self) -> @debug.Repr
 pub fn RuleSystem::trace(Self, Array[Int]) -> ClosureTrace raise FcaError
 pub fn RuleSystem::with_rule(Self, Implication) -> Self raise FcaError
+
+pub struct ScoredRule {
+  rule : Implication
+  metrics : RuleMetrics
+} derive(Eq, @debug.Debug)
+pub fn ScoredRule::equal(Self, Self) -> Bool
+pub fn ScoredRule::not_equal(Self, Self) -> Bool
+pub fn ScoredRule::to_repr(Self) -> @debug.Repr
 
 // Type aliases
 
