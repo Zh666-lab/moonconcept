@@ -76,11 +76,14 @@ pub fn Context::dual(Self) -> Self raise FcaError
 pub fn Context::equal(Self, Self) -> Bool
 pub fn Context::extent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::filter_rules(Self, Array[Implication], min_support? : Double, min_confidence? : Double) -> Array[ScoredRule] raise FcaError
+pub fn Context::frequent_concepts(Self, Double, limit? : Int) -> Array[Concept] raise FcaError
+pub fn Context::generator_rules(Self, Array[Int], candidate_limit? : Int) -> Array[Implication] raise FcaError
 pub fn Context::has(Self, Int, Int) -> Bool raise FcaError
 pub fn Context::implication_for(Self, Array[Int]) -> Implication raise FcaError
 pub fn Context::intent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::is_closed(Self, Array[Int]) -> Bool raise FcaError
 pub fn Context::lattice(Self, limit? : Int) -> Lattice raise FcaError
+pub fn Context::minimal_generators(Self, Array[Int], candidate_limit? : Int, result_limit? : Int) -> Array[Array[Int]] raise FcaError
 pub fn Context::next_intent(Self, Array[Int]) -> Array[Int]? raise FcaError
 pub fn Context::not_equal(Self, Self) -> Bool
 pub fn Context::object_closure(Self, Array[Int]) -> Array[Int] raise FcaError
