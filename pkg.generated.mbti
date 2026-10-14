@@ -20,6 +20,8 @@ pub fn index_set(Array[Int]) -> Array[Int]
 
 pub fn model_respects(Array[Int], Implication, Int) -> Bool raise FcaError
 
+pub fn parse_csv(String) -> Context raise FcaError
+
 pub fn parse_cxt(String) -> Context raise FcaError
 
 pub fn rule_system(Int, Array[Implication]) -> RuleSystem raise FcaError
@@ -112,6 +114,7 @@ pub fn Context::rows(Self) -> Array[Array[Bool]]
 pub fn Context::rule_metrics(Self, Implication) -> RuleMetrics raise FcaError
 pub fn Context::subposition(Self, Self) -> Self raise FcaError
 pub fn Context::support(Self, Array[Int]) -> Double raise FcaError
+pub fn Context::to_csv(Self) -> String
 pub fn Context::to_cxt(Self) -> String raise FcaError
 pub fn Context::to_repr(Self) -> @debug.Repr
 pub fn Context::valid_concept(Self, Concept) -> Bool raise FcaError
