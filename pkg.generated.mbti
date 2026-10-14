@@ -6,7 +6,23 @@ import {
 }
 
 // Values
+pub fn checked_indices(Array[Int], Int) -> Array[Int] raise FcaError
+
 pub fn context(Array[String], Array[String], Array[Array[Bool]]) -> Context raise FcaError
+
+pub fn index_set(Array[Int]) -> Array[Int]
+
+pub fn set_difference(Array[Int], Array[Int]) -> Array[Int]
+
+pub fn set_equal(Array[Int], Array[Int]) -> Bool
+
+pub fn set_intersection(Array[Int], Array[Int]) -> Array[Int]
+
+pub fn set_subset(Array[Int], Array[Int]) -> Bool
+
+pub fn set_union(Array[Int], Array[Int]) -> Array[Int]
+
+pub fn universe(Int) -> Array[Int] raise FcaError
 
 // Errors
 pub(all) suberror FcaError {
