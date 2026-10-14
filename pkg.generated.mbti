@@ -12,7 +12,11 @@ pub fn context(Array[String], Array[String], Array[Array[Bool]]) -> Context rais
 
 pub fn context_from_sets(Array[String], Array[String], Array[Array[Int]]) -> Context raise FcaError
 
+pub fn implication(Array[Int], Array[Int], Int) -> Implication raise FcaError
+
 pub fn index_set(Array[Int]) -> Array[Int]
+
+pub fn model_respects(Array[Int], Implication, Int) -> Bool raise FcaError
 
 pub fn set_difference(Array[Int], Array[Int]) -> Array[Int]
 
@@ -54,11 +58,14 @@ pub fn Context::attributes(Self) -> Array[String]
 pub fn Context::closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::concept_for(Self, Array[Int]) -> Concept raise FcaError
 pub fn Context::concepts(Self, limit? : Int) -> Array[Concept] raise FcaError
+pub fn Context::counterexample_labels(Self, Implication) -> Array[String] raise FcaError
+pub fn Context::counterexamples(Self, Implication) -> Array[Int] raise FcaError
 pub fn Context::density(Self) -> Double
 pub fn Context::dual(Self) -> Self raise FcaError
 pub fn Context::equal(Self, Self) -> Bool
 pub fn Context::extent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::has(Self, Int, Int) -> Bool raise FcaError
+pub fn Context::implication_for(Self, Array[Int]) -> Implication raise FcaError
 pub fn Context::intent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::is_closed(Self, Array[Int]) -> Bool raise FcaError
 pub fn Context::lattice(Self, limit? : Int) -> Lattice raise FcaError
@@ -74,6 +81,7 @@ pub fn Context::rows(Self) -> Array[Array[Bool]]
 pub fn Context::support(Self, Array[Int]) -> Double raise FcaError
 pub fn Context::to_repr(Self) -> @debug.Repr
 pub fn Context::valid_concept(Self, Concept) -> Bool raise FcaError
+pub fn Context::valid_implication(Self, Implication) -> Bool raise FcaError
 pub fn Context::with_object(Self, String, Array[Int]) -> Self raise FcaError
 pub fn Context::without_object(Self, Int) -> Self raise FcaError
 
@@ -84,6 +92,14 @@ pub struct Cover {
 pub fn Cover::equal(Self, Self) -> Bool
 pub fn Cover::not_equal(Self, Self) -> Bool
 pub fn Cover::to_repr(Self) -> @debug.Repr
+
+pub struct Implication {
+  premise : Array[Int]
+  conclusion : Array[Int]
+} derive(Eq, @debug.Debug)
+pub fn Implication::equal(Self, Self) -> Bool
+pub fn Implication::not_equal(Self, Self) -> Bool
+pub fn Implication::to_repr(Self) -> @debug.Repr
 
 pub struct Lattice {
   // private fields
