@@ -3,8 +3,8 @@
 /// Groups map each representative back to every original index, so multiplicities are explicit.
 pub struct Clarification {
   context : Context
-  priv object_groups : Array[Array[Int]]
-  priv attribute_groups : Array[Array[Int]]
+  priv object_groups : Array[Array[Int32]]
+  priv attribute_groups : Array[Array[Int32]]
 } derive(Debug)
 
 ///|
@@ -12,9 +12,9 @@ pub extend Clarification with Debug::{to_repr}
 
 ///|
 pub fn Context::clarify(self : Context) -> Clarification raise FcaError {
-  let object_groups : Array[Array[Int]] = []
-  let row_keys : Map[String, Int] = Map([])
-  let object_representatives : Array[Int] = []
+  let object_groups : Array[Array[Int32]] = []
+  let row_keys : Map[String, Int32] = Map([])
+  let object_representatives : Array[Int32] = []
   for o = 0; o < self.object_count(); o = o + 1 {
     let key = self.incidence[o]
       .map(fn(present) { if present { "1" } else { "0" } })
@@ -28,9 +28,9 @@ pub fn Context::clarify(self : Context) -> Clarification raise FcaError {
       }
     }
   }
-  let attribute_groups : Array[Array[Int]] = []
-  let column_keys : Map[String, Int] = Map([])
-  let attribute_representatives : Array[Int] = []
+  let attribute_groups : Array[Array[Int32]] = []
+  let column_keys : Map[String, Int32] = Map([])
+  let attribute_representatives : Array[Int32] = []
   for a = 0; a < self.attribute_count(); a = a + 1 {
     let column : Array[String] = []
     for o = 0; o < self.object_count(); o = o + 1 {
@@ -56,10 +56,10 @@ pub fn Context::clarify(self : Context) -> Clarification raise FcaError {
 ///|
 pub fn Clarification::expand_extent(
   self : Clarification,
-  extent : Array[Int],
-) -> Array[Int] raise FcaError {
+  extent : Array[Int32],
+) -> Array[Int32] raise FcaError {
   let selected = checked_indices(extent, self.object_groups.length())
-  let result : Array[Int] = []
+  let result : Array[Int32] = []
   for group in selected {
     for value in self.object_groups[group] {
       result.push(value)
@@ -71,10 +71,10 @@ pub fn Clarification::expand_extent(
 ///|
 pub fn Clarification::expand_intent(
   self : Clarification,
-  intent : Array[Int],
-) -> Array[Int] raise FcaError {
+  intent : Array[Int32],
+) -> Array[Int32] raise FcaError {
   let selected = checked_indices(intent, self.attribute_groups.length())
-  let result : Array[Int] = []
+  let result : Array[Int32] = []
   for group in selected {
     for value in self.attribute_groups[group] {
       result.push(value)
@@ -84,13 +84,15 @@ pub fn Clarification::expand_intent(
 }
 
 ///|
-pub fn Clarification::object_classes(self : Clarification) -> Array[Array[Int]] {
+pub fn Clarification::object_classes(
+  self : Clarification,
+) -> Array[Array[Int32]] {
   self.object_groups.map(fn(group) { group.copy() })
 }
 
 ///|
 pub fn Clarification::attribute_classes(
   self : Clarification,
-) -> Array[Array[Int]] {
+) -> Array[Array[Int32]] {
   self.attribute_groups.map(fn(group) { group.copy() })
 }

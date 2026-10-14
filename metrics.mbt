@@ -1,11 +1,11 @@
 ///|
 /// Confidence/lift are undefined (None), not NaN, when their denominators vanish.
 pub struct RuleMetrics {
-  object_count : Int
-  premise_count : Int
-  conclusion_count : Int
-  joint_count : Int
-  counterexample_count : Int
+  object_count : Int32
+  premise_count : Int32
+  conclusion_count : Int32
+  joint_count : Int32
+  counterexample_count : Int32
   support : Double
   confidence : Double?
   lift : Double?
@@ -75,8 +75,8 @@ pub fn Context::rule_metrics(
 pub fn Context::filter_rules(
   self : Context,
   rules : Array[Implication],
-  min_support? : Double = 0.0,
-  min_confidence? : Double = 1.0,
+  min_support~ : Double = 0.0,
+  min_confidence~ : Double = 1.0,
 ) -> Array[ScoredRule] raise FcaError {
   if !(min_support >= 0.0 && min_support <= 1.0) ||
     !(min_confidence >= 0.0 && min_confidence <= 1.0) {

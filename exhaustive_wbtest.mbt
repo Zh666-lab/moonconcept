@@ -1,6 +1,6 @@
 ///|
-fn oracle_seed(mask : Int, dimension : Int) -> Array[Int] {
-  let result : Array[Int] = []
+fn oracle_seed(mask : Int32, dimension : Int32) -> Array[Int32] {
+  let result : Array[Int32] = []
   let mut remaining = mask
   for a = 0; a < dimension; a = a + 1 {
     if remaining % 2 == 1 {
@@ -12,7 +12,7 @@ fn oracle_seed(mask : Int, dimension : Int) -> Array[Int] {
 }
 
 ///|
-fn oracle_subset(a : Array[Int], b : Array[Int]) -> Bool {
+fn oracle_subset(a : Array[Int32], b : Array[Int32]) -> Bool {
   let mut result = true
   for value in a {
     if !b.contains(value) {
@@ -26,10 +26,10 @@ fn oracle_subset(a : Array[Int], b : Array[Int]) -> Bool {
 /// Separate scalar matrix oracle: no production derivation/set/closure helpers are called.
 fn oracle_closure(
   rows : Array[Array[Bool]],
-  width : Int,
-  seed : Array[Int],
-) -> Array[Int] {
-  let witnesses : Array[Int] = []
+  width : Int32,
+  seed : Array[Int32],
+) -> Array[Int32] {
+  let witnesses : Array[Int32] = []
   for o = 0; o < rows.length(); o = o + 1 {
     let mut matches = true
     for a in seed {
@@ -41,7 +41,7 @@ fn oracle_closure(
       witnesses.push(o)
     }
   }
-  let common : Array[Int] = []
+  let common : Array[Int32] = []
   for a = 0; a < width; a = a + 1 {
     let mut shared = true
     for o in witnesses {
@@ -72,8 +72,8 @@ test "exhaustive 689 contexts and 5054 seeds prove closure enumeration basis and
           rows,
         )
         contexts = contexts + 1
-        let expected : Array[Array[Int]] = []
-        let pseudo : Array[Array[Int]] = []
+        let expected : Array[Array[Int32]] = []
+        let pseudo : Array[Array[Int32]] = []
         for bits = 0; bits < 1 << width; bits = bits + 1 {
           let seed = oracle_seed(bits, width)
           let closed = oracle_closure(rows, width, seed)
@@ -102,7 +102,7 @@ test "exhaustive 689 contexts and 5054 seeds prove closure enumeration basis and
         }
         for target in expected {
           let actual = c.minimal_generators(target)
-          let minimal : Array[Array[Int]] = []
+          let minimal : Array[Array[Int32]] = []
           for bits = 0; bits < 1 << width; bits = bits + 1 {
             let seed = oracle_seed(bits, width)
             if oracle_closure(rows, width, seed) == target {

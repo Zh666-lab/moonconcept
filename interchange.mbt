@@ -62,7 +62,7 @@ fn json_required(
 }
 
 ///|
-fn json_array(value : Json, maximum : Int) -> Array[Json] raise FcaError {
+fn json_array(value : Json, maximum : Int32) -> Array[Json] raise FcaError {
   match value {
     Array(values) => {
       if values.length() > maximum {
@@ -75,7 +75,7 @@ fn json_array(value : Json, maximum : Int) -> Array[Json] raise FcaError {
 }
 
 ///|
-fn json_integer(value : Json, maximum : Int) -> Int raise FcaError {
+fn json_integer(value : Json, maximum : Int32) -> Int32 raise FcaError {
   match value {
     Number(n, ..) => {
       if n.is_nan() || n.is_inf() || n < 0.0 || n > maximum.to_double() {
@@ -92,7 +92,7 @@ fn json_integer(value : Json, maximum : Int) -> Int raise FcaError {
 }
 
 ///|
-fn json_labels(value : Json, maximum : Int) -> Array[String] raise FcaError {
+fn json_labels(value : Json, maximum : Int32) -> Array[String] raise FcaError {
   json_array(value, maximum).map(v => {
     match v {
       String(label) => label
@@ -102,7 +102,7 @@ fn json_labels(value : Json, maximum : Int) -> Array[String] raise FcaError {
 }
 
 ///|
-fn json_indices(value : Json, dimension : Int) -> Array[Int] raise FcaError {
+fn json_indices(value : Json, dimension : Int32) -> Array[Int32] raise FcaError {
   let indices = json_array(value, 128).map(v => json_integer(v, 127))
   checked_indices(indices, dimension)
 }

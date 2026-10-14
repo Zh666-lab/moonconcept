@@ -1,8 +1,8 @@
 ///|
 /// Positive Horn implication. Conclusion is canonicalized to exclude the premise.
 pub struct Implication {
-  premise : Array[Int]
-  conclusion : Array[Int]
+  premise : Array[Int32]
+  conclusion : Array[Int32]
 } derive(Eq, Debug)
 
 ///|
@@ -13,9 +13,9 @@ pub extend Implication with Debug::{to_repr}
 
 ///|
 pub fn implication(
-  premise : Array[Int],
-  conclusion : Array[Int],
-  dimension : Int,
+  premise : Array[Int32],
+  conclusion : Array[Int32],
+  dimension : Int32,
 ) -> Implication raise FcaError {
   if dimension < 0 || dimension > 128 {
     raise Invalid("implication dimension must be 0..128")
@@ -29,16 +29,16 @@ pub fn implication(
 /// All public consumers revalidate the mutable result arrays of an implication.
 fn check_rule(
   rule : Implication,
-  dimension : Int,
+  dimension : Int32,
 ) -> Implication raise FcaError {
   implication(rule.premise, rule.conclusion, dimension)
 }
 
 ///|
 pub fn model_respects(
-  model : Array[Int],
+  model : Array[Int32],
   rule : Implication,
-  dimension : Int,
+  dimension : Int32,
 ) -> Bool raise FcaError {
   let model = checked_indices(model, dimension)
   let rule = check_rule(rule, dimension)
@@ -50,9 +50,9 @@ pub fn model_respects(
 pub fn Context::counterexamples(
   self : Context,
   rule : Implication,
-) -> Array[Int] raise FcaError {
+) -> Array[Int32] raise FcaError {
   let rule = check_rule(rule, self.attribute_count())
-  let result : Array[Int] = []
+  let result : Array[Int32] = []
   for o in self.extent(rule.premise) {
     let mut satisfies = true
     for a in rule.conclusion {
@@ -80,7 +80,7 @@ pub fn Context::valid_implication(
 ///|
 pub fn Context::implication_for(
   self : Context,
-  premise : Array[Int],
+  premise : Array[Int32],
 ) -> Implication raise FcaError {
   let premise = checked_indices(premise, self.attribute_count())
   implication(premise, self.closure(premise), self.attribute_count())

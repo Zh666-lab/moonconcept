@@ -1,6 +1,6 @@
 ///|
 pub struct RuleSystem {
-  priv dimension : Int
+  priv dimension : Int32
   priv rules : Array[Implication]
 } derive(Debug)
 
@@ -9,8 +9,8 @@ pub extend RuleSystem with Debug::{to_repr}
 
 ///|
 pub struct InferenceStep {
-  rule_index : Int
-  added : Array[Int]
+  rule_index : Int32
+  added : Array[Int32]
 } derive(Eq, Debug)
 
 ///|
@@ -21,7 +21,7 @@ pub extend InferenceStep with Debug::{to_repr}
 
 ///|
 pub struct ClosureTrace {
-  result : Array[Int]
+  result : Array[Int32]
   steps : Array[InferenceStep]
 } derive(Eq, Debug)
 
@@ -33,7 +33,7 @@ pub extend ClosureTrace with Debug::{to_repr}
 
 ///|
 pub fn rule_system(
-  dimension : Int,
+  dimension : Int32,
   rules : Array[Implication],
 ) -> RuleSystem raise FcaError {
   if dimension < 0 || dimension > 128 {
@@ -46,7 +46,7 @@ pub fn rule_system(
 }
 
 ///|
-pub fn RuleSystem::attribute_count(self : RuleSystem) -> Int {
+pub fn RuleSystem::attribute_count(self : RuleSystem) -> Int32 {
   self.dimension
 }
 
@@ -61,7 +61,7 @@ pub fn RuleSystem::implications(self : RuleSystem) -> Array[Implication] {
 /// Deterministic Armstrong forward chaining. Each recorded step adds at least one attribute.
 pub fn RuleSystem::trace(
   self : RuleSystem,
-  seed : Array[Int],
+  seed : Array[Int32],
 ) -> ClosureTrace raise FcaError {
   let mut result = checked_indices(seed, self.dimension)
   let steps : Array[InferenceStep] = []
@@ -86,8 +86,8 @@ pub fn RuleSystem::trace(
 ///|
 pub fn RuleSystem::closure(
   self : RuleSystem,
-  seed : Array[Int],
-) -> Array[Int] raise FcaError {
+  seed : Array[Int32],
+) -> Array[Int32] raise FcaError {
   self.trace(seed).result
 }
 
@@ -124,7 +124,7 @@ pub fn RuleSystem::equivalent(
 ///|
 pub fn RuleSystem::is_model(
   self : RuleSystem,
-  attributes : Array[Int],
+  attributes : Array[Int32],
 ) -> Bool raise FcaError {
   let attributes = checked_indices(attributes, self.dimension)
   self.closure(attributes) == attributes

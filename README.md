@@ -159,7 +159,7 @@ and greatest/least bounds, parser negatives, ownership mutation and budgets.
 A further deterministic inventory feeds 1000 short malformed strings to each
 parser. This is finite exhaustive evidence, not a proof for arbitrary sizes.
 
-Local Windows toolchain: moon 0.1.20260920 / moonc v0.10.14 development build.
+Release-validation Windows toolchain: moon 0.1.20261012 / moonc v0.10.15 stable build.
 Check/test/build and workflows were run on wasm-gc, wasm and js. Native checking
 works locally; native build/test require a C compiler not installed locally.
 CI runs all four targets including native on Ubuntu with GCC, and records its

@@ -1,5 +1,5 @@
 ///|
-fn indices_json(values : Array[Int]) -> Json {
+fn indices_json(values : Array[Int32]) -> Json {
   Json::array(values.map(fn(i) { Json::number(i.to_double()) }))
 }
 
@@ -30,7 +30,7 @@ fn metrics_json(metrics : RuleMetrics) -> Json {
 /// Indexed output keeps vocabularies once rather than repeating potentially large labels.
 pub fn Context::concept_report(
   self : Context,
-  limit? : Int = 4096,
+  limit~ : Int32 = 4096,
 ) -> Json raise FcaError {
   let nodes = self
     .concepts(limit~)
@@ -51,7 +51,7 @@ pub fn Context::concept_report(
 ///|
 pub fn Context::lattice_report(
   self : Context,
-  limit? : Int = 256,
+  limit~ : Int32 = 256,
 ) -> Json raise FcaError {
   let lattice = self.lattice(limit~)
   let nodes : Array[Json] = []
@@ -131,7 +131,7 @@ pub fn RuleSystem::audit(
 /// Explanations identify source rule indices and only newly inferred attributes.
 pub fn RuleSystem::inference_report(
   self : RuleSystem,
-  seed : Array[Int],
+  seed : Array[Int32],
 ) -> Json raise FcaError {
   let seed = checked_indices(seed, self.attribute_count())
   let trace = self.trace(seed)

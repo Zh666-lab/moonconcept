@@ -60,12 +60,12 @@ pub fn context(
 }
 
 ///|
-pub fn Context::object_count(self : Context) -> Int {
+pub fn Context::object_count(self : Context) -> Int32 {
   self.object_names.length()
 }
 
 ///|
-pub fn Context::attribute_count(self : Context) -> Int {
+pub fn Context::attribute_count(self : Context) -> Int32 {
   self.attribute_names.length()
 }
 
@@ -87,8 +87,8 @@ pub fn Context::rows(self : Context) -> Array[Array[Bool]] {
 ///|
 pub fn Context::has(
   self : Context,
-  object : Int,
-  attribute : Int,
+  object : Int32,
+  attribute : Int32,
 ) -> Bool raise FcaError {
   if object < 0 || object >= self.object_count() {
     raise Invalid("object index out of range")
@@ -100,7 +100,7 @@ pub fn Context::has(
 }
 
 ///|
-pub fn Context::object_index(self : Context, name : String) -> Int? {
+pub fn Context::object_index(self : Context, name : String) -> Int32? {
   for i = 0; i < self.object_count(); i = i + 1 {
     if self.object_names[i] == name {
       return Some(i)
@@ -110,7 +110,7 @@ pub fn Context::object_index(self : Context, name : String) -> Int? {
 }
 
 ///|
-pub fn Context::attribute_index(self : Context, name : String) -> Int? {
+pub fn Context::attribute_index(self : Context, name : String) -> Int32? {
   for i = 0; i < self.attribute_count(); i = i + 1 {
     if self.attribute_names[i] == name {
       return Some(i)

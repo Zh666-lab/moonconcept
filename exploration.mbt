@@ -40,7 +40,7 @@ pub fn Exploration::theory(self : Exploration) -> RuleSystem {
 /// Budget exhaustion raises rather than incorrectly signaling completion.
 pub fn Exploration::next_question(
   self : Exploration,
-  candidate_limit? : Int = 65536,
+  candidate_limit~ : Int32 = 65536,
 ) -> Implication? raise FcaError {
   let dimension = self.observed.attribute_count()
   let total = subset_count(dimension, candidate_limit)
@@ -82,7 +82,7 @@ pub fn Exploration::reject(
   self : Exploration,
   question : Implication,
   object_name : String,
-  attributes : Array[Int],
+  attributes : Array[Int32],
 ) -> Exploration raise FcaError {
   let dimension = self.observed.attribute_count()
   let rule = check_rule(question, dimension)

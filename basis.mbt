@@ -1,5 +1,5 @@
 ///|
-fn subset_count(dimension : Int, limit : Int) -> Int raise FcaError {
+fn subset_count(dimension : Int32, limit : Int32) -> Int32 raise FcaError {
   if dimension < 0 || dimension > 16 {
     raise Budget("exhaustive algorithms require at most 16 attributes")
   }
@@ -14,8 +14,8 @@ fn subset_count(dimension : Int, limit : Int) -> Int raise FcaError {
 }
 
 ///|
-fn mask_indices(mask : Int, dimension : Int) -> Array[Int] {
-  let result : Array[Int] = []
+fn mask_indices(mask : Int32, dimension : Int32) -> Array[Int32] {
+  let result : Array[Int32] = []
   for i = 0; i < dimension; i = i + 1 {
     if (mask & (1 << i)) != 0 {
       result.push(i)
@@ -30,15 +30,15 @@ fn mask_indices(mask : Int, dimension : Int) -> Array[Int] {
 /// This is exact, deliberately bounded, and not a large-scale mining algorithm.
 pub fn Context::canonical_basis(
   self : Context,
-  candidate_limit? : Int = 65536,
-  work_limit? : Int = 1000000,
+  candidate_limit~ : Int32 = 65536,
+  work_limit~ : Int32 = 1000000,
 ) -> RuleSystem raise FcaError {
   if work_limit < 1 || work_limit > 10000000 {
     raise Invalid("work limit must be 1..10000000")
   }
   let count = subset_count(self.attribute_count(), candidate_limit)
   let rules : Array[Implication] = []
-  let closed_pseudo : Array[Array[Int]] = []
+  let closed_pseudo : Array[Array[Int32]] = []
   let mut work = 0
   for mask = 0; mask < count; mask = mask + 1 {
     work = work + 1

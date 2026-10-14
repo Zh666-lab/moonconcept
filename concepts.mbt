@@ -1,8 +1,8 @@
 ///|
 /// One formal concept: extent' = intent and intent' = extent.
 pub struct Concept {
-  extent : Array[Int]
-  intent : Array[Int]
+  extent : Array[Int32]
+  intent : Array[Int32]
 } derive(Eq, Debug)
 
 ///|
@@ -14,7 +14,7 @@ pub extend Concept with Debug::{to_repr}
 ///|
 pub fn Context::concept_for(
   self : Context,
-  attributes : Array[Int],
+  attributes : Array[Int32],
 ) -> Concept raise FcaError {
   let extent = self.extent(attributes)
   { extent, intent: self.intent(extent), }
@@ -34,15 +34,15 @@ pub fn Context::valid_concept(
 /// NextClosure in the input attribute order. The supplied intent must already be closed.
 pub fn Context::next_intent(
   self : Context,
-  current : Array[Int],
-) -> Array[Int]? raise FcaError {
+  current : Array[Int32],
+) -> Array[Int32]? raise FcaError {
   let current = checked_indices(current, self.attribute_count())
   if !self.is_closed(current) {
     raise Invalid("NextClosure requires a closed intent")
   }
   for i = self.attribute_count() - 1; i >= 0; i = i - 1 {
     if !current.contains(i) {
-      let seed : Array[Int] = []
+      let seed : Array[Int32] = []
       for j in current {
         if j < i {
           seed.push(j)
@@ -69,7 +69,7 @@ pub fn Context::next_intent(
 /// Enumerate in lectic order; budget failure never returns a silently truncated result.
 pub fn Context::concepts(
   self : Context,
-  limit? : Int = 4096,
+  limit~ : Int32 = 4096,
 ) -> Array[Concept] raise FcaError {
   if limit < 1 || limit > 65536 {
     raise Invalid("concept limit must be 1..65536")

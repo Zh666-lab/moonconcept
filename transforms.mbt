@@ -16,8 +16,8 @@ pub fn Context::dual(self : Context) -> Context raise FcaError {
 /// Induced subcontext in original index order; duplicates in either selection are ignored.
 pub fn Context::project(
   self : Context,
-  objects : Array[Int],
-  attributes : Array[Int],
+  objects : Array[Int32],
+  attributes : Array[Int32],
 ) -> Context raise FcaError {
   let objects = checked_indices(objects, self.object_count())
   let attributes = checked_indices(attributes, self.attribute_count())
@@ -37,7 +37,7 @@ pub fn Context::project(
 pub fn Context::with_object(
   self : Context,
   name : String,
-  attributes : Array[Int],
+  attributes : Array[Int32],
 ) -> Context raise FcaError {
   let attributes = checked_indices(attributes, self.attribute_count())
   let names = self.objects()
@@ -52,7 +52,7 @@ pub fn Context::with_object(
 ///|
 pub fn Context::without_object(
   self : Context,
-  object : Int,
+  object : Int32,
 ) -> Context raise FcaError {
   let selected = checked_indices([object], self.object_count())
   self.project(
@@ -66,7 +66,7 @@ pub fn Context::without_object(
 pub fn context_from_sets(
   objects : Array[String],
   attributes : Array[String],
-  positives : Array[Array[Int]],
+  positives : Array[Array[Int32]],
 ) -> Context raise FcaError {
   if positives.length() != objects.length() {
     raise Invalid("positive-row count mismatch")

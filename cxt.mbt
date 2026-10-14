@@ -6,7 +6,7 @@ fn check_text_size(text : String) -> Unit raise FcaError {
 }
 
 ///|
-fn decimal_count(text : String, maximum : Int) -> Int raise FcaError {
+fn decimal_count(text : String, maximum : Int32) -> Int32 raise FcaError {
   let chars = text.to_array()
   if chars.is_empty() || chars.length() > 5 {
     raise Invalid("expected a bounded unsigned decimal count")

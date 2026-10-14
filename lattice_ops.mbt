@@ -1,5 +1,5 @@
 ///|
-pub fn Lattice::find_intent(self : Lattice, intent : Array[Int]) -> Int? {
+pub fn Lattice::find_intent(self : Lattice, intent : Array[Int32]) -> Int32? {
   let intent = index_set(intent)
   for i = 0; i < self.size(); i = i + 1 {
     if self.nodes[i].intent == intent {
@@ -10,7 +10,7 @@ pub fn Lattice::find_intent(self : Lattice, intent : Array[Int]) -> Int? {
 }
 
 ///|
-pub fn Lattice::find_extent(self : Lattice, extent : Array[Int]) -> Int? {
+pub fn Lattice::find_extent(self : Lattice, extent : Array[Int32]) -> Int32? {
   let extent = index_set(extent)
   for i = 0; i < self.size(); i = i + 1 {
     if self.nodes[i].extent == extent {
@@ -24,9 +24,9 @@ pub fn Lattice::find_extent(self : Lattice, extent : Array[Int]) -> Int? {
 /// Greatest lower bound: intersection of closed extents.
 pub fn Lattice::meet(
   self : Lattice,
-  left : Int,
-  right : Int,
-) -> Int raise FcaError {
+  left : Int32,
+  right : Int32,
+) -> Int32 raise FcaError {
   self.check_node(left)
   self.check_node(right)
   match
@@ -42,9 +42,9 @@ pub fn Lattice::meet(
 /// Least upper bound: intersection of closed intents (reverse inclusion).
 pub fn Lattice::join(
   self : Lattice,
-  left : Int,
-  right : Int,
-) -> Int raise FcaError {
+  left : Int32,
+  right : Int32,
+) -> Int32 raise FcaError {
   self.check_node(left)
   self.check_node(right)
   match
@@ -57,7 +57,7 @@ pub fn Lattice::join(
 }
 
 ///|
-pub fn Lattice::top(self : Lattice) -> Int {
+pub fn Lattice::top(self : Lattice) -> Int32 {
   let mut top = 0
   for i = 1; i < self.size(); i = i + 1 {
     if self.order[top][i] {
@@ -68,7 +68,7 @@ pub fn Lattice::top(self : Lattice) -> Int {
 }
 
 ///|
-pub fn Lattice::bottom(self : Lattice) -> Int {
+pub fn Lattice::bottom(self : Lattice) -> Int32 {
   let mut bottom = 0
   for i = 1; i < self.size(); i = i + 1 {
     if self.order[i][bottom] {
@@ -82,8 +82,8 @@ pub fn Lattice::bottom(self : Lattice) -> Int {
 /// Empty meet is the top element.
 pub fn Lattice::meet_all(
   self : Lattice,
-  nodes : Array[Int],
-) -> Int raise FcaError {
+  nodes : Array[Int32],
+) -> Int32 raise FcaError {
   let mut result = self.top()
   for node in nodes {
     result = self.meet(result, node)
@@ -95,8 +95,8 @@ pub fn Lattice::meet_all(
 /// Empty join is the bottom element.
 pub fn Lattice::join_all(
   self : Lattice,
-  nodes : Array[Int],
-) -> Int raise FcaError {
+  nodes : Array[Int32],
+) -> Int32 raise FcaError {
   let mut result = self.bottom()
   for node in nodes {
     result = self.join(result, node)
@@ -107,13 +107,13 @@ pub fn Lattice::join_all(
 ///|
 pub fn Lattice::interval(
   self : Lattice,
-  lower : Int,
-  upper : Int,
-) -> Array[Int] raise FcaError {
+  lower : Int32,
+  upper : Int32,
+) -> Array[Int32] raise FcaError {
   if !self.leq(lower, upper) {
     raise Invalid("interval endpoints are not ordered")
   }
-  let result : Array[Int] = []
+  let result : Array[Int32] = []
   for i = 0; i < self.size(); i = i + 1 {
     if self.order[lower][i] && self.order[i][upper] {
       result.push(i)

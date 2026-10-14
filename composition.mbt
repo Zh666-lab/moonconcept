@@ -7,7 +7,7 @@ pub fn Context::apposition(
   if self.object_count() != other.object_count() {
     raise Invalid("apposition requires the same object identities")
   }
-  let alignment : Array[Int] = []
+  let alignment : Array[Int32] = []
   for name in self.object_names {
     match other.object_index(name) {
       Some(index) => alignment.push(index)
@@ -41,7 +41,7 @@ pub fn Context::subposition(
   if self.attribute_count() != other.attribute_count() {
     raise Invalid("subposition requires the same attribute identities")
   }
-  let alignment : Array[Int] = []
+  let alignment : Array[Int32] = []
   for name in self.attribute_names {
     match other.attribute_index(name) {
       Some(index) => alignment.push(index)

@@ -1,8 +1,8 @@
 ///|
 /// Edge direction is lower extent -> upper extent (subset order).
 pub struct Cover {
-  lower : Int
-  upper : Int
+  lower : Int32
+  upper : Int32
 } derive(Eq, Debug)
 
 ///|
@@ -25,7 +25,7 @@ pub extend Lattice with Debug::{to_repr}
 /// Materialize a bounded Hasse diagram; cubic cover reduction is limited to 256 concepts.
 pub fn Context::lattice(
   self : Context,
-  limit? : Int = 256,
+  limit~ : Int32 = 256,
 ) -> Lattice raise FcaError {
   if limit < 1 || limit > 256 {
     raise Invalid("lattice limit must be 1..256")
@@ -61,19 +61,19 @@ pub fn Context::lattice(
 }
 
 ///|
-fn Lattice::check_node(self : Lattice, node : Int) -> Unit raise FcaError {
+fn Lattice::check_node(self : Lattice, node : Int32) -> Unit raise FcaError {
   if node < 0 || node >= self.nodes.length() {
     raise Invalid("lattice node out of range")
   }
 }
 
 ///|
-pub fn Lattice::size(self : Lattice) -> Int {
+pub fn Lattice::size(self : Lattice) -> Int32 {
   self.nodes.length()
 }
 
 ///|
-pub fn Lattice::concept(self : Lattice, node : Int) -> Concept raise FcaError {
+pub fn Lattice::concept(self : Lattice, node : Int32) -> Concept raise FcaError {
   self.check_node(node)
   {
     extent: self.nodes[node].extent.copy(),
@@ -89,8 +89,8 @@ pub fn Lattice::covers(self : Lattice) -> Array[Cover] {
 ///|
 pub fn Lattice::leq(
   self : Lattice,
-  lower : Int,
-  upper : Int,
+  lower : Int32,
+  upper : Int32,
 ) -> Bool raise FcaError {
   self.check_node(lower)
   self.check_node(upper)
@@ -100,10 +100,10 @@ pub fn Lattice::leq(
 ///|
 pub fn Lattice::upper_covers(
   self : Lattice,
-  node : Int,
-) -> Array[Int] raise FcaError {
+  node : Int32,
+) -> Array[Int32] raise FcaError {
   self.check_node(node)
-  let out : Array[Int] = []
+  let out : Array[Int32] = []
   for edge in self.edges {
     if edge.lower == node {
       out.push(edge.upper)
@@ -115,10 +115,10 @@ pub fn Lattice::upper_covers(
 ///|
 pub fn Lattice::lower_covers(
   self : Lattice,
-  node : Int,
-) -> Array[Int] raise FcaError {
+  node : Int32,
+) -> Array[Int32] raise FcaError {
   self.check_node(node)
-  let out : Array[Int] = []
+  let out : Array[Int32] = []
   for edge in self.edges {
     if edge.upper == node {
       out.push(edge.lower)

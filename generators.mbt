@@ -3,10 +3,10 @@
 /// Inclusion-compatible enumeration prunes supersets of previously found generators.
 pub fn Context::minimal_generators(
   self : Context,
-  intent : Array[Int],
-  candidate_limit? : Int = 65536,
-  result_limit? : Int = 4096,
-) -> Array[Array[Int]] raise FcaError {
+  intent : Array[Int32],
+  candidate_limit~ : Int32 = 65536,
+  result_limit~ : Int32 = 4096,
+) -> Array[Array[Int32]] raise FcaError {
   let target = checked_indices(intent, self.attribute_count())
   if !self.is_closed(target) {
     raise Invalid("generator target must be a closed intent")
@@ -15,7 +15,7 @@ pub fn Context::minimal_generators(
     raise Invalid("generator result limit must be 1..65536")
   }
   let count = subset_count(target.length(), candidate_limit)
-  let result : Array[Array[Int]] = []
+  let result : Array[Array[Int32]] = []
   for mask = 0; mask < count; mask = mask + 1 {
     let candidate = mask_indices(mask, target.length()).map(fn(i) { target[i] })
     let mut dominated = false
@@ -39,8 +39,8 @@ pub fn Context::minimal_generators(
 /// Exact closure rules from minimal generators; this is not the canonical base.
 pub fn Context::generator_rules(
   self : Context,
-  intent : Array[Int],
-  candidate_limit? : Int = 65536,
+  intent : Array[Int32],
+  candidate_limit~ : Int32 = 65536,
 ) -> Array[Implication] raise FcaError {
   let target = checked_indices(intent, self.attribute_count())
   let generators = self.minimal_generators(target, candidate_limit~)
@@ -54,7 +54,7 @@ pub fn Context::generator_rules(
 pub fn Context::frequent_concepts(
   self : Context,
   min_support : Double,
-  limit? : Int = 4096,
+  limit~ : Int32 = 4096,
 ) -> Array[Concept] raise FcaError {
   if !(min_support >= 0.0 && min_support <= 1.0) {
     raise Invalid("support threshold must be in 0..1")
