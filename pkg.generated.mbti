@@ -61,6 +61,7 @@ pub fn Context::extent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::has(Self, Int, Int) -> Bool raise FcaError
 pub fn Context::intent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::is_closed(Self, Array[Int]) -> Bool raise FcaError
+pub fn Context::lattice(Self, limit? : Int) -> Lattice raise FcaError
 pub fn Context::next_intent(Self, Array[Int]) -> Array[Int]? raise FcaError
 pub fn Context::not_equal(Self, Self) -> Bool
 pub fn Context::object_closure(Self, Array[Int]) -> Array[Int] raise FcaError
@@ -75,6 +76,25 @@ pub fn Context::to_repr(Self) -> @debug.Repr
 pub fn Context::valid_concept(Self, Concept) -> Bool raise FcaError
 pub fn Context::with_object(Self, String, Array[Int]) -> Self raise FcaError
 pub fn Context::without_object(Self, Int) -> Self raise FcaError
+
+pub struct Cover {
+  lower : Int
+  upper : Int
+} derive(Eq, @debug.Debug)
+pub fn Cover::equal(Self, Self) -> Bool
+pub fn Cover::not_equal(Self, Self) -> Bool
+pub fn Cover::to_repr(Self) -> @debug.Repr
+
+pub struct Lattice {
+  // private fields
+} derive(@debug.Debug)
+pub fn Lattice::concept(Self, Int) -> Concept raise FcaError
+pub fn Lattice::covers(Self) -> Array[Cover]
+pub fn Lattice::leq(Self, Int, Int) -> Bool raise FcaError
+pub fn Lattice::lower_covers(Self, Int) -> Array[Int] raise FcaError
+pub fn Lattice::size(Self) -> Int
+pub fn Lattice::to_repr(Self) -> @debug.Repr
+pub fn Lattice::upper_covers(Self, Int) -> Array[Int] raise FcaError
 
 // Type aliases
 
