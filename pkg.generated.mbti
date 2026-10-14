@@ -10,6 +10,8 @@ pub fn checked_indices(Array[Int], Int) -> Array[Int] raise FcaError
 
 pub fn context(Array[String], Array[String], Array[Array[Bool]]) -> Context raise FcaError
 
+pub fn context_from_sets(Array[String], Array[String], Array[Array[Int]]) -> Context raise FcaError
+
 pub fn index_set(Array[Int]) -> Array[Int]
 
 pub fn set_difference(Array[Int], Array[Int]) -> Array[Int]
@@ -53,6 +55,7 @@ pub fn Context::closure(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::concept_for(Self, Array[Int]) -> Concept raise FcaError
 pub fn Context::concepts(Self, limit? : Int) -> Array[Concept] raise FcaError
 pub fn Context::density(Self) -> Double
+pub fn Context::dual(Self) -> Self raise FcaError
 pub fn Context::equal(Self, Self) -> Bool
 pub fn Context::extent(Self, Array[Int]) -> Array[Int] raise FcaError
 pub fn Context::has(Self, Int, Int) -> Bool raise FcaError
@@ -65,10 +68,13 @@ pub fn Context::object_count(Self) -> Int
 pub fn Context::object_index(Self, String) -> Int?
 pub fn Context::object_labels(Self, Array[Int]) -> Array[String] raise FcaError
 pub fn Context::objects(Self) -> Array[String]
+pub fn Context::project(Self, Array[Int], Array[Int]) -> Self raise FcaError
 pub fn Context::rows(Self) -> Array[Array[Bool]]
 pub fn Context::support(Self, Array[Int]) -> Double raise FcaError
 pub fn Context::to_repr(Self) -> @debug.Repr
 pub fn Context::valid_concept(Self, Concept) -> Bool raise FcaError
+pub fn Context::with_object(Self, String, Array[Int]) -> Self raise FcaError
+pub fn Context::without_object(Self, Int) -> Self raise FcaError
 
 // Type aliases
 
