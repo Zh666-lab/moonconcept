@@ -12,7 +12,7 @@ test "reports preserve exact semantic objects and safe numeric DOT" {
   assert_eq(json_array(json_required(fields, "nodes"), 256).length(), 4)
   let dot = c.lattice().to_dot()
   assert_true(dot.split("\n").count() > 4)
-  assert_true(!dot.to_array().contains('"') || dot != "")
+  assert_eq(dot.split("hacked").to_array().length(), 1)
   let concepts = json_fields(c.concept_report(), [
     "schema", "context", "concepts",
   ])

@@ -66,7 +66,7 @@ pub fn RuleSystem::split_conclusions(
 }
 
 ///|
-/// Equivalent theory with a new implication, retaining the original system unchanged.
+/// Extend the theory with a new implication, retaining the original system unchanged.
 pub fn RuleSystem::with_rule(
   self : RuleSystem,
   rule : Implication,
