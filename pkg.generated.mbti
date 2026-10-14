@@ -88,12 +88,21 @@ pub fn Cover::to_repr(Self) -> @debug.Repr
 pub struct Lattice {
   // private fields
 } derive(@debug.Debug)
+pub fn Lattice::bottom(Self) -> Int
 pub fn Lattice::concept(Self, Int) -> Concept raise FcaError
 pub fn Lattice::covers(Self) -> Array[Cover]
+pub fn Lattice::find_extent(Self, Array[Int]) -> Int?
+pub fn Lattice::find_intent(Self, Array[Int]) -> Int?
+pub fn Lattice::interval(Self, Int, Int) -> Array[Int] raise FcaError
+pub fn Lattice::join(Self, Int, Int) -> Int raise FcaError
+pub fn Lattice::join_all(Self, Array[Int]) -> Int raise FcaError
 pub fn Lattice::leq(Self, Int, Int) -> Bool raise FcaError
 pub fn Lattice::lower_covers(Self, Int) -> Array[Int] raise FcaError
+pub fn Lattice::meet(Self, Int, Int) -> Int raise FcaError
+pub fn Lattice::meet_all(Self, Array[Int]) -> Int raise FcaError
 pub fn Lattice::size(Self) -> Int
 pub fn Lattice::to_repr(Self) -> @debug.Repr
+pub fn Lattice::top(Self) -> Int
 pub fn Lattice::upper_covers(Self, Int) -> Array[Int] raise FcaError
 
 // Type aliases
