@@ -6,19 +6,19 @@ import {
 }
 
 // Values
-pub fn checked_indices(Array[Int], Int) -> Array[Int] raise FcaError
+pub fn checked_indices(Array[Int32], Int32) -> Array[Int32] raise FcaError
 
 pub fn context(Array[String], Array[String], Array[Array[Bool]]) -> Context raise FcaError
 
-pub fn context_from_sets(Array[String], Array[String], Array[Array[Int]]) -> Context raise FcaError
+pub fn context_from_sets(Array[String], Array[String], Array[Array[Int32]]) -> Context raise FcaError
 
 pub fn exploration(Context, RuleSystem) -> Exploration raise FcaError
 
-pub fn implication(Array[Int], Array[Int], Int) -> Implication raise FcaError
+pub fn implication(Array[Int32], Array[Int32], Int32) -> Implication raise FcaError
 
-pub fn index_set(Array[Int]) -> Array[Int]
+pub fn index_set(Array[Int32]) -> Array[Int32]
 
-pub fn model_respects(Array[Int], Implication, Int) -> Bool raise FcaError
+pub fn model_respects(Array[Int32], Implication, Int32) -> Bool raise FcaError
 
 pub fn parse_context_json(String) -> Context raise FcaError
 
@@ -28,19 +28,19 @@ pub fn parse_cxt(String) -> Context raise FcaError
 
 pub fn parse_rules_json(String) -> RuleSystem raise FcaError
 
-pub fn rule_system(Int, Array[Implication]) -> RuleSystem raise FcaError
+pub fn rule_system(Int32, Array[Implication]) -> RuleSystem raise FcaError
 
-pub fn set_difference(Array[Int], Array[Int]) -> Array[Int]
+pub fn set_difference(Array[Int32], Array[Int32]) -> Array[Int32]
 
-pub fn set_equal(Array[Int], Array[Int]) -> Bool
+pub fn set_equal(Array[Int32], Array[Int32]) -> Bool
 
-pub fn set_intersection(Array[Int], Array[Int]) -> Array[Int]
+pub fn set_intersection(Array[Int32], Array[Int32]) -> Array[Int32]
 
-pub fn set_subset(Array[Int], Array[Int]) -> Bool
+pub fn set_subset(Array[Int32], Array[Int32]) -> Bool
 
-pub fn set_union(Array[Int], Array[Int]) -> Array[Int]
+pub fn set_union(Array[Int32], Array[Int32]) -> Array[Int32]
 
-pub fn universe(Int) -> Array[Int] raise FcaError
+pub fn universe(Int32) -> Array[Int32] raise FcaError
 
 // Errors
 pub(all) suberror FcaError {
@@ -56,14 +56,14 @@ pub struct Clarification {
   context : Context
   // private fields
 } derive(@debug.Debug)
-pub fn Clarification::attribute_classes(Self) -> Array[Array[Int]]
-pub fn Clarification::expand_extent(Self, Array[Int]) -> Array[Int] raise FcaError
-pub fn Clarification::expand_intent(Self, Array[Int]) -> Array[Int] raise FcaError
-pub fn Clarification::object_classes(Self) -> Array[Array[Int]]
+pub fn Clarification::attribute_classes(Self) -> Array[Array[Int32]]
+pub fn Clarification::expand_extent(Self, Array[Int32]) -> Array[Int32] raise FcaError
+pub fn Clarification::expand_intent(Self, Array[Int32]) -> Array[Int32] raise FcaError
+pub fn Clarification::object_classes(Self) -> Array[Array[Int32]]
 pub fn Clarification::to_repr(Self) -> @debug.Repr
 
 pub struct ClosureTrace {
-  result : Array[Int]
+  result : Array[Int32]
   steps : Array[InferenceStep]
 } derive(Eq, @debug.Debug)
 pub fn ClosureTrace::equal(Self, Self) -> Bool
@@ -71,8 +71,8 @@ pub fn ClosureTrace::not_equal(Self, Self) -> Bool
 pub fn ClosureTrace::to_repr(Self) -> @debug.Repr
 
 pub struct Concept {
-  extent : Array[Int]
-  intent : Array[Int]
+  extent : Array[Int32]
+  intent : Array[Int32]
 } derive(Eq, @debug.Debug)
 pub fn Concept::equal(Self, Self) -> Bool
 pub fn Concept::not_equal(Self, Self) -> Bool
@@ -82,44 +82,44 @@ pub struct Context {
   // private fields
 } derive(Eq, @debug.Debug)
 pub fn Context::apposition(Self, Self) -> Self raise FcaError
-pub fn Context::attribute_count(Self) -> Int
-pub fn Context::attribute_index(Self, String) -> Int?
-pub fn Context::attribute_labels(Self, Array[Int]) -> Array[String] raise FcaError
+pub fn Context::attribute_count(Self) -> Int32
+pub fn Context::attribute_index(Self, String) -> Int32?
+pub fn Context::attribute_labels(Self, Array[Int32]) -> Array[String] raise FcaError
 pub fn Context::attributes(Self) -> Array[String]
-pub fn Context::canonical_basis(Self, candidate_limit? : Int, work_limit? : Int) -> RuleSystem raise FcaError
+pub fn Context::canonical_basis(Self, candidate_limit? : Int32, work_limit? : Int32) -> RuleSystem raise FcaError
 pub fn Context::clarify(Self) -> Clarification raise FcaError
-pub fn Context::closure(Self, Array[Int]) -> Array[Int] raise FcaError
-pub fn Context::concept_for(Self, Array[Int]) -> Concept raise FcaError
-pub fn Context::concept_report(Self, limit? : Int) -> Json raise FcaError
-pub fn Context::concepts(Self, limit? : Int) -> Array[Concept] raise FcaError
+pub fn Context::closure(Self, Array[Int32]) -> Array[Int32] raise FcaError
+pub fn Context::concept_for(Self, Array[Int32]) -> Concept raise FcaError
+pub fn Context::concept_report(Self, limit? : Int32) -> Json raise FcaError
+pub fn Context::concepts(Self, limit? : Int32) -> Array[Concept] raise FcaError
 pub fn Context::counterexample_labels(Self, Implication) -> Array[String] raise FcaError
-pub fn Context::counterexamples(Self, Implication) -> Array[Int] raise FcaError
+pub fn Context::counterexamples(Self, Implication) -> Array[Int32] raise FcaError
 pub fn Context::density(Self) -> Double
 pub fn Context::dual(Self) -> Self raise FcaError
 pub fn Context::equal(Self, Self) -> Bool
-pub fn Context::extent(Self, Array[Int]) -> Array[Int] raise FcaError
+pub fn Context::extent(Self, Array[Int32]) -> Array[Int32] raise FcaError
 pub fn Context::filter_rules(Self, Array[Implication], min_support? : Double, min_confidence? : Double) -> Array[ScoredRule] raise FcaError
-pub fn Context::frequent_concepts(Self, Double, limit? : Int) -> Array[Concept] raise FcaError
-pub fn Context::generator_rules(Self, Array[Int], candidate_limit? : Int) -> Array[Implication] raise FcaError
-pub fn Context::has(Self, Int, Int) -> Bool raise FcaError
-pub fn Context::implication_for(Self, Array[Int]) -> Implication raise FcaError
-pub fn Context::intent(Self, Array[Int]) -> Array[Int] raise FcaError
-pub fn Context::is_closed(Self, Array[Int]) -> Bool raise FcaError
-pub fn Context::lattice(Self, limit? : Int) -> Lattice raise FcaError
-pub fn Context::lattice_report(Self, limit? : Int) -> Json raise FcaError
-pub fn Context::minimal_generators(Self, Array[Int], candidate_limit? : Int, result_limit? : Int) -> Array[Array[Int]] raise FcaError
-pub fn Context::next_intent(Self, Array[Int]) -> Array[Int]? raise FcaError
+pub fn Context::frequent_concepts(Self, Double, limit? : Int32) -> Array[Concept] raise FcaError
+pub fn Context::generator_rules(Self, Array[Int32], candidate_limit? : Int32) -> Array[Implication] raise FcaError
+pub fn Context::has(Self, Int32, Int32) -> Bool raise FcaError
+pub fn Context::implication_for(Self, Array[Int32]) -> Implication raise FcaError
+pub fn Context::intent(Self, Array[Int32]) -> Array[Int32] raise FcaError
+pub fn Context::is_closed(Self, Array[Int32]) -> Bool raise FcaError
+pub fn Context::lattice(Self, limit? : Int32) -> Lattice raise FcaError
+pub fn Context::lattice_report(Self, limit? : Int32) -> Json raise FcaError
+pub fn Context::minimal_generators(Self, Array[Int32], candidate_limit? : Int32, result_limit? : Int32) -> Array[Array[Int32]] raise FcaError
+pub fn Context::next_intent(Self, Array[Int32]) -> Array[Int32]? raise FcaError
 pub fn Context::not_equal(Self, Self) -> Bool
-pub fn Context::object_closure(Self, Array[Int]) -> Array[Int] raise FcaError
-pub fn Context::object_count(Self) -> Int
-pub fn Context::object_index(Self, String) -> Int?
-pub fn Context::object_labels(Self, Array[Int]) -> Array[String] raise FcaError
+pub fn Context::object_closure(Self, Array[Int32]) -> Array[Int32] raise FcaError
+pub fn Context::object_count(Self) -> Int32
+pub fn Context::object_index(Self, String) -> Int32?
+pub fn Context::object_labels(Self, Array[Int32]) -> Array[String] raise FcaError
 pub fn Context::objects(Self) -> Array[String]
-pub fn Context::project(Self, Array[Int], Array[Int]) -> Self raise FcaError
+pub fn Context::project(Self, Array[Int32], Array[Int32]) -> Self raise FcaError
 pub fn Context::rows(Self) -> Array[Array[Bool]]
 pub fn Context::rule_metrics(Self, Implication) -> RuleMetrics raise FcaError
 pub fn Context::subposition(Self, Self) -> Self raise FcaError
-pub fn Context::support(Self, Array[Int]) -> Double raise FcaError
+pub fn Context::support(Self, Array[Int32]) -> Double raise FcaError
 pub fn Context::to_csv(Self) -> String
 pub fn Context::to_cxt(Self) -> String raise FcaError
 pub fn Context::to_json(Self) -> Json
@@ -127,12 +127,12 @@ pub fn Context::to_json_string(Self) -> String
 pub fn Context::to_repr(Self) -> @debug.Repr
 pub fn Context::valid_concept(Self, Concept) -> Bool raise FcaError
 pub fn Context::valid_implication(Self, Implication) -> Bool raise FcaError
-pub fn Context::with_object(Self, String, Array[Int]) -> Self raise FcaError
-pub fn Context::without_object(Self, Int) -> Self raise FcaError
+pub fn Context::with_object(Self, String, Array[Int32]) -> Self raise FcaError
+pub fn Context::without_object(Self, Int32) -> Self raise FcaError
 
 pub struct Cover {
-  lower : Int
-  upper : Int
+  lower : Int32
+  upper : Int32
 } derive(Eq, @debug.Debug)
 pub fn Cover::equal(Self, Self) -> Bool
 pub fn Cover::not_equal(Self, Self) -> Bool
@@ -143,22 +143,22 @@ pub struct Exploration {
 } derive(@debug.Debug)
 pub fn Exploration::accept(Self, Implication) -> Self raise FcaError
 pub fn Exploration::context(Self) -> Context
-pub fn Exploration::next_question(Self, candidate_limit? : Int) -> Implication? raise FcaError
-pub fn Exploration::reject(Self, Implication, String, Array[Int]) -> Self raise FcaError
+pub fn Exploration::next_question(Self, candidate_limit? : Int32) -> Implication? raise FcaError
+pub fn Exploration::reject(Self, Implication, String, Array[Int32]) -> Self raise FcaError
 pub fn Exploration::theory(Self) -> RuleSystem
 pub fn Exploration::to_repr(Self) -> @debug.Repr
 
 pub struct Implication {
-  premise : Array[Int]
-  conclusion : Array[Int]
+  premise : Array[Int32]
+  conclusion : Array[Int32]
 } derive(Eq, @debug.Debug)
 pub fn Implication::equal(Self, Self) -> Bool
 pub fn Implication::not_equal(Self, Self) -> Bool
 pub fn Implication::to_repr(Self) -> @debug.Repr
 
 pub struct InferenceStep {
-  rule_index : Int
-  added : Array[Int]
+  rule_index : Int32
+  added : Array[Int32]
 } derive(Eq, @debug.Debug)
 pub fn InferenceStep::equal(Self, Self) -> Bool
 pub fn InferenceStep::not_equal(Self, Self) -> Bool
@@ -167,30 +167,30 @@ pub fn InferenceStep::to_repr(Self) -> @debug.Repr
 pub struct Lattice {
   // private fields
 } derive(@debug.Debug)
-pub fn Lattice::bottom(Self) -> Int
-pub fn Lattice::concept(Self, Int) -> Concept raise FcaError
+pub fn Lattice::bottom(Self) -> Int32
+pub fn Lattice::concept(Self, Int32) -> Concept raise FcaError
 pub fn Lattice::covers(Self) -> Array[Cover]
-pub fn Lattice::find_extent(Self, Array[Int]) -> Int?
-pub fn Lattice::find_intent(Self, Array[Int]) -> Int?
-pub fn Lattice::interval(Self, Int, Int) -> Array[Int] raise FcaError
-pub fn Lattice::join(Self, Int, Int) -> Int raise FcaError
-pub fn Lattice::join_all(Self, Array[Int]) -> Int raise FcaError
-pub fn Lattice::leq(Self, Int, Int) -> Bool raise FcaError
-pub fn Lattice::lower_covers(Self, Int) -> Array[Int] raise FcaError
-pub fn Lattice::meet(Self, Int, Int) -> Int raise FcaError
-pub fn Lattice::meet_all(Self, Array[Int]) -> Int raise FcaError
-pub fn Lattice::size(Self) -> Int
+pub fn Lattice::find_extent(Self, Array[Int32]) -> Int32?
+pub fn Lattice::find_intent(Self, Array[Int32]) -> Int32?
+pub fn Lattice::interval(Self, Int32, Int32) -> Array[Int32] raise FcaError
+pub fn Lattice::join(Self, Int32, Int32) -> Int32 raise FcaError
+pub fn Lattice::join_all(Self, Array[Int32]) -> Int32 raise FcaError
+pub fn Lattice::leq(Self, Int32, Int32) -> Bool raise FcaError
+pub fn Lattice::lower_covers(Self, Int32) -> Array[Int32] raise FcaError
+pub fn Lattice::meet(Self, Int32, Int32) -> Int32 raise FcaError
+pub fn Lattice::meet_all(Self, Array[Int32]) -> Int32 raise FcaError
+pub fn Lattice::size(Self) -> Int32
 pub fn Lattice::to_dot(Self) -> String
 pub fn Lattice::to_repr(Self) -> @debug.Repr
-pub fn Lattice::top(Self) -> Int
-pub fn Lattice::upper_covers(Self, Int) -> Array[Int] raise FcaError
+pub fn Lattice::top(Self) -> Int32
+pub fn Lattice::upper_covers(Self, Int32) -> Array[Int32] raise FcaError
 
 pub struct RuleMetrics {
-  object_count : Int
-  premise_count : Int
-  conclusion_count : Int
-  joint_count : Int
-  counterexample_count : Int
+  object_count : Int32
+  premise_count : Int32
+  conclusion_count : Int32
+  joint_count : Int32
+  counterexample_count : Int32
   support : Double
   confidence : Double?
   lift : Double?
@@ -203,21 +203,21 @@ pub fn RuleMetrics::to_repr(Self) -> @debug.Repr
 pub struct RuleSystem {
   // private fields
 } derive(@debug.Debug)
-pub fn RuleSystem::attribute_count(Self) -> Int
+pub fn RuleSystem::attribute_count(Self) -> Int32
 pub fn RuleSystem::audit(Self, Context) -> Json raise FcaError
-pub fn RuleSystem::closure(Self, Array[Int]) -> Array[Int] raise FcaError
+pub fn RuleSystem::closure(Self, Array[Int32]) -> Array[Int32] raise FcaError
 pub fn RuleSystem::entails(Self, Implication) -> Bool raise FcaError
 pub fn RuleSystem::equivalent(Self, Self) -> Bool raise FcaError
 pub fn RuleSystem::implications(Self) -> Array[Implication]
-pub fn RuleSystem::inference_report(Self, Array[Int]) -> Json raise FcaError
+pub fn RuleSystem::inference_report(Self, Array[Int32]) -> Json raise FcaError
 pub fn RuleSystem::irredundant(Self) -> Self raise FcaError
-pub fn RuleSystem::is_model(Self, Array[Int]) -> Bool raise FcaError
+pub fn RuleSystem::is_model(Self, Array[Int32]) -> Bool raise FcaError
 pub fn RuleSystem::reduce_premises(Self) -> Self raise FcaError
 pub fn RuleSystem::split_conclusions(Self) -> Self raise FcaError
 pub fn RuleSystem::to_json(Self) -> Json
 pub fn RuleSystem::to_json_string(Self) -> String
 pub fn RuleSystem::to_repr(Self) -> @debug.Repr
-pub fn RuleSystem::trace(Self, Array[Int]) -> ClosureTrace raise FcaError
+pub fn RuleSystem::trace(Self, Array[Int32]) -> ClosureTrace raise FcaError
 pub fn RuleSystem::with_rule(Self, Implication) -> Self raise FcaError
 
 pub struct ScoredRule {

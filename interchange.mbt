@@ -162,8 +162,165 @@ pub fn Context::to_json_string(self : Context) -> String {
 }
 
 ///|
+/// Preserve numeric tokens in a shadow tree. Core still owns JSON grammar,
+/// escaped keys and duplicate-key resolution, so overwritten values are ignored.
+fn rule_json_lexemes(text : String) -> Json raise FcaError {
+  let chars = text.to_array()
+  let out = StringBuilder()
+  let mut quoted = false
+  let mut escaped = false
+  let mut i = 0
+  while i < chars.length() {
+    let c = chars[i]
+    if quoted {
+      out.write_char(c)
+      if escaped {
+        escaped = false
+      } else if c == '\\' {
+        escaped = true
+      } else if c == '"' {
+        quoted = false
+      }
+      i = i + 1
+    } else if c == '"' {
+      quoted = true
+      out.write_char(c)
+      i = i + 1
+    } else if c == '-' || (c >= '0' && c <= '9') {
+      out.write_char('"')
+      while i < chars.length() {
+        let d = chars[i]
+        if (d >= '0' && d <= '9') ||
+          d == '-' ||
+          d == '+' ||
+          d == '.' ||
+          d == 'e' ||
+          d == 'E' {
+          out.write_char(d)
+          i = i + 1
+        } else {
+          break
+        }
+      }
+      out.write_char('"')
+    } else {
+      out.write_char(c)
+      i = i + 1
+    }
+  }
+  // The original input has already passed syntax, size and depth validation.
+  @json.parse(out.to_string()[:]) catch {
+    _ => raise Invalid("invalid numeric JSON representation")
+  }
+}
+
+///|
+/// The original tree has already checked the field's numeric type. Validate its
+/// exact decimal value, not the Double rounded by the standard JSON parser.
+fn check_rule_json_number(value : Json) -> Unit raise FcaError {
+  let token = match value {
+    String(token) => token
+    _ => raise Invalid("JSON numeric field has no decimal token")
+  }
+  let chars = token.to_array()
+  let negative = chars[0] == '-'
+  let mut i = if negative { 1 } else { 0 }
+  let start = i
+  let mut digit_count = 0
+  let mut integer_digits = 0
+  let mut first_nonzero = -1
+  let mut last_nonzero = -1
+  let mut fraction = false
+  while i < chars.length() {
+    let digit = chars[i]
+    if digit >= '0' && digit <= '9' {
+      if digit != '0' {
+        if first_nonzero < 0 {
+          first_nonzero = digit_count
+        }
+        last_nonzero = digit_count
+      }
+      digit_count = digit_count + 1
+      if !fraction {
+        integer_digits = integer_digits + 1
+      }
+    } else if digit == '.' {
+      fraction = true
+    } else {
+      break
+    }
+    i = i + 1
+  }
+  let end = i
+  let mut exponent = 0
+  if i < chars.length() {
+    i = i + 1
+    let mut exponent_negative = false
+    if chars[i] == '+' || chars[i] == '-' {
+      exponent_negative = chars[i] == '-'
+      i = i + 1
+    }
+    // Exponents beyond the token length cannot change acceptance. Saturation
+    // avoids integer overflow even for adversarial exponent strings.
+    let cap = chars.length() + 1
+    while i < chars.length() {
+      if exponent < cap {
+        exponent = exponent * 10 + chars[i].to_int() - '0'.to_int()
+        if exponent > cap {
+          exponent = cap
+        }
+      }
+      i = i + 1
+    }
+    if exponent_negative {
+      exponent = -exponent
+    }
+  }
+  if first_nonzero >= 0 {
+    let point = integer_digits + exponent
+    if negative || last_nonzero >= point || point - first_nonzero > 3 {
+      raise Invalid("JSON numeric field must be an exact integer in 0..128")
+    }
+    let mut position = 0
+    let mut exact = 0
+    for j = start; j < end; j = j + 1 {
+      if chars[j] != '.' {
+        if position >= first_nonzero && position < point {
+          exact = exact * 10 + chars[j].to_int() - '0'.to_int()
+        }
+        position = position + 1
+      }
+    }
+    while position < point {
+      exact = exact * 10
+      position = position + 1
+    }
+    if exact > 128 {
+      raise Invalid("JSON numeric field must be an exact integer in 0..128")
+    }
+  }
+}
+
+///|
+fn check_rule_json_numbers(text : String) -> Unit raise FcaError {
+  let fields = json_fields(rule_json_lexemes(text), [
+    "schema", "dimension", "rules",
+  ])
+  check_rule_json_number(json_required(fields, "dimension"))
+  for rule in json_array(json_required(fields, "rules"), 4096) {
+    let fields = json_fields(rule, ["premise", "conclusion"])
+    for key in ["premise", "conclusion"] {
+      for index in json_array(json_required(fields, key), 128) {
+        check_rule_json_number(index)
+      }
+    }
+  }
+}
+
+///|
 pub fn parse_rules_json(text : String) -> RuleSystem raise FcaError {
-  let fields = json_fields(decode_json(text), ["schema", "dimension", "rules"])
+  let value = decode_json(text)
+  let fields = json_fields(value, ["schema", "dimension", "rules"])
   json_schema(fields, "moonconcept-rules/v1")
   let dimension = json_integer(json_required(fields, "dimension"), 128)
   let rules = json_array(json_required(fields, "rules"), 4096).map(value => {
@@ -174,7 +331,9 @@ pub fn parse_rules_json(text : String) -> RuleSystem raise FcaError {
       dimension,
     )
   })
-  rule_system(dimension, rules)
+  let result = rule_system(dimension, rules)
+  check_rule_json_numbers(text)
+  result
 }
 
 ///|
