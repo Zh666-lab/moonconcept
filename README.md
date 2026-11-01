@@ -2,7 +2,7 @@
 
 纯 MoonBit 实现的有限二元**形式概念分析（Formal Concept Analysis，FCA）**内核：从对象—属性关系计算 Galois 闭包、闭合模式、概念格和精确属性依赖。
 
-原创实现，采用 MIT 许可证。本版本：**0.1.2**。修复规则 JSON 的精确整数校验与严格检查下的快速示例；公开 API 不变。
+原创实现，采用 MIT 许可证。本版本：**0.1.3**。修复 CI 对可变 latest 下载地址的依赖，使用官方版本地址及内容校验；公开 API 不变。
 
 ## 项目解决什么问题
 
@@ -16,10 +16,12 @@
 
 ## 安装与快速使用
 
+要求 `moonc >= 0.10.16`；运行 `moon version --all` 查看实际版本。
+
 ```sh
 moon new consumer
 cd consumer
-moon add Zh666-lab/moonconcept@0.1.2
+moon add Zh666-lab/moonconcept@0.1.3
 ```
 
 在消费者包的 `moon.pkg` 中添加导入：
@@ -153,9 +155,11 @@ bash scripts/verify.sh js
 
 此外，每个解析器还接受 1000 个确定性生成的短畸形字符串测试。这是有限范围的穷举证据，不是对任意规模输入的形式证明。
 
-发布验证的 Windows 工具链为 moon `0.1.20261012` / moonc `v0.10.15` 稳定版。本地已运行 wasm-gc、wasm、js 的严格检查、测试、构建与工作流；另在本机 Ubuntu 24.04 WSL / GCC 13.3 上使用 moon `0.1.20261016` / moonc `v0.10.16`，实际通过 native 严格检查、测试、构建与三个工作流。Windows 原生 native 仍需要 MSVC C++ 工具及 Windows SDK，本机未安装；WSL 验证不等于 Windows 原生验证。
+本版本使用编译器 `moonc v0.10.16+b1a0e846e`（配套 moon `0.1.20261020`）验证。Linux / Ubuntu 24.04 WSL / GCC 13.3 执行 wasm-gc、wasm、native，Windows 执行 js 的严格检查、测试、构建及三个工作流。Windows 原生 native 本机未验证；WSL 验证不等于 Windows 原生验证。
 
-CI 在 Ubuntu / GCC 上执行全部四个目标，并记录实际工具版本。CI 下载官方 2026 年 10 月 19 日更新的快照（工具版本构建于 10 月 16 日），使用对象 ETag 前置条件和 SHA-256 内容摘要校验：若上游对象改变，则拒绝继续，需要审核新快照后同步更新两项约束。ETag 与本项目记录的摘要不是上游数字签名。每次发布是否通过验证，应以对应提交的实际 Actions 记录为准。
+CI 在 Ubuntu / GCC 上执行全部四个目标，并记录实际工具版本。安装脚本使用官方 `0.10.16+b1a0e846e` 版本下载地址和对应 SHA-256 校验，检查编译器不低于 0.10.16，避免 `latest` 更新导致旧 ETag 返回 HTTP 412。摘要用于内容校验，不是上游数字签名。
+
+官方版本下载也有保留期限：2026 年 11 月 1 日实际响应注明当前两份归档于 2026 年 12 月 28 日到期。过期前需要审核可用版本、配套 core 与摘要，再完整回归；脚本不会静默改用 latest。每次发布是否通过验证，以对应提交的实际 Actions 记录为准。
 
 ## 来源、许可证与赛事资料
 
